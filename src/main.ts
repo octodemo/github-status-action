@@ -8,11 +8,13 @@ async function run(): Promise<void> {
   const authToken: string = core.getInput('authToken');
   let octokit: Octokit | null = null;
 
+  const baseUrl = process.env.GITHUB_API_URL || 'https://api.github.com';
+
   try {
     octokit = new Octokit({
       auth: authToken,
       userAgent: "github-status-action",
-      baseUrl: 'https://api.github.com',
+      baseUrl: baseUrl,
       log: {
         debug: () => { },
         info: () => { },
@@ -45,7 +47,7 @@ async function run(): Promise<void> {
   }
 
   try {   
-    await octokit.repos.createStatus(statusRequest);
+    await octokit.rest.repos.createCommitStatus(statusRequest);
   } catch (error) {
     core.setFailed(`Error setting status:\n${error.message}\nRequest object:\n${JSON.stringify(statusRequest, null, 2)}`);
   }
