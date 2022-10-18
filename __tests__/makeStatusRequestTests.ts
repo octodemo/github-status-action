@@ -95,12 +95,12 @@ test("should getInput repo and remove leading owner name", t=> {
     t.is(makeStatusRequest(actionsCoreAlt1).repo, INPUT_REPOSITORY);
 });
 
-test("when owner is not a valid GitHub username, should throw", t=> {
-    let err = t.throws(()=> makeStatusRequest(actionsCoreAlt2));
+test("when owner is not a valid GitHub username, should throw", async t=> {
+    let err = await t.throws(()=> makeStatusRequest(actionsCoreAlt2));
     t.is(err.message, ERR_INVALID_OWNER)
 });
 
-test("should validate state", t=> {
-    let err = t.throws(()=> makeStatusRequest(actionsCoreAlt3));
+test("should validate state", async t=> {
+    let err = await t.throws(()=> makeStatusRequest(actionsCoreAlt3));
     t.is(err.message, ERR_INVALID_STATE)
 });
